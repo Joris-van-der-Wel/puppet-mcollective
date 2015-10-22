@@ -1,0 +1,28 @@
+{
+  "name": "jorisw-mcollective",
+  "version": "1.0.0",
+  "author": "Joris van der Wel <joris@jorisvanderwel.com>",
+  "summary": "Configures the mcollective agent & client. Also installs the puppet plugin",
+  "license": "MIT",
+  "source": "git://github.com/Joris-van-der-Wel/puppet-mcollective.git",
+  "project_page": "https://github.com/Joris-van-der-Wel/puppet-mcollective",
+  "issues_url": "https://github.com/Joris-van-der-Wel/puppet-mcollective/issues",
+  "description": "Configures the mcollective agent, client and installs the puppet plugin",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">=4.0.0 <5.0.0"
+    }
+  ],
+  "dependencies": [
+    {"name":"puppetlabs/inifile","version_requirement":">= 1.4.0 <2.0.0"}
+  ]
+}

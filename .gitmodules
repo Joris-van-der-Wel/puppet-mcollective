@@ -1,0 +1,3 @@
+[submodule "files/puppet_agent_repo"]
+	path = files/puppet_agent_repo
+	url = https://github.com/puppetlabs/mcollective-puppet-agent.git
