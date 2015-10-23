@@ -21,6 +21,8 @@ class mcollective (
   $rabbit_admin_password = false, # ^
 
   $enable_agent_service = true,
+
+  $mcollective_pre_shared_key = 'unset',
 ) {
 
   if ($configure_agent) {
@@ -172,6 +174,11 @@ class mcollective::agent::config {
     setting => 'classesfile',
     value   => '/opt/puppetlabs/puppet/cache/state/classes.txt',
   }
+
+  ini_setting { 'mcollective/server.cfg/plugin.psk':
+    setting => 'plugin.psk',
+    value => $mcollective::mcollective_pre_shared_key,
+  }
 }
 
 Class['mcollective::agent::config'] ~> Service['mcollective']
@@ -276,6 +283,11 @@ class mcollective::client::config {
     ensure => $ssl_ensure,
     setting => 'plugin.rabbitmq.pool.1.ssl.fallback',
     value   => 0,
+  }
+
+  ini_setting { 'mcollective/client.cfg/plugin.psk':
+    setting => 'plugin.psk',
+    value => $mcollective::mcollective_pre_shared_key,
   }
 }
 
