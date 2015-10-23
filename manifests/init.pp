@@ -12,6 +12,7 @@ class mcollective (
   $rabbit_ssl_cacert = '',
   $rabbit_ssl_cert = '',
   $rabbit_ssl_key = '',
+  $rabbit_ssl_ciphers = 'DHE-RSA-AES256-SHA',
 
   $rabbit_user,
   $rabbit_password,
@@ -115,6 +116,12 @@ class mcollective::agent::config {
       true => '1',
       default => '0',
     },
+  }
+
+  ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.ssl.ciphers":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.ciphers',
+    value   => $mcollective::rabbit_ssl_ciphers,
   }
 
   ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.ssl.ca":
@@ -234,6 +241,12 @@ class mcollective::client::config {
       true => '1',
       default => '0',
     },
+  }
+
+  ini_setting { "mcollective/client.cfg/plugin.rabbitmq.pool.1.ssl.ciphers":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.ciphers',
+    value => $mcollective::rabbit_ssl_ciphers,
   }
 
   ini_setting { "mcollective/client.cfg/plugin.rabbitmq.pool.1.ssl.ca":
