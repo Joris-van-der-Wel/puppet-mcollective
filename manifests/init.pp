@@ -153,6 +153,11 @@ class mcollective::agent::config {
     value   => '120',
   }
 
+  ini_setting { "mcollective/server.cfg/plugin.rabbitmq.stomp_1_0_fallback":
+    setting => 'plugin.rabbitmq.stomp_1_0_fallback',
+    value   => '0',
+  }
+
   ini_setting { "mcollective/server.cfg/factsource":
     setting => 'factsource',
     value   => 'yaml',
