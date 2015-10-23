@@ -8,8 +8,14 @@ class mcollective (
 
   $rabbit_host,
   $rabbit_port,
+  $rabbit_ssl = false,
+  $rabbit_ssl_cacert = '',
+  $rabbit_ssl_cert = '',
+  $rabbit_ssl_key = '',
+
   $rabbit_user,
   $rabbit_password,
+
   $rabbit_admin_user = false,     # only required if $configure_rabbit_vhost
   $rabbit_admin_password = false, # ^
 
@@ -77,8 +83,7 @@ class mcollective::agent::config {
     setting => 'plugin.rabbitmq.pool.size',
     value   => '1',
   }
-
-  # todo ssl
+  
   ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.host":
     setting => 'plugin.rabbitmq.pool.1.host',
     value   => $mcollective::rabbit_host,
@@ -97,6 +102,43 @@ class mcollective::agent::config {
   ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.password":
     setting => 'plugin.rabbitmq.pool.1.password',
     value   => $mcollective::rabbit_password,
+  }
+
+  $ssl_ensure = $mcollective::rabbit_ssl ? {
+    true => present,
+    default => absent,
+  }
+
+  ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.ssl":
+    setting => 'plugin.rabbitmq.pool.1.ssl',
+    value   => $mcollective::rabbit_ssl ? {
+      true => '1',
+      default => '0',
+    },
+  }
+
+  ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.ssl.ca":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.ca',
+    value   => $mcollective::rabbit_ssl_cacert,
+  }
+
+  ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.ssl.cert":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.cert',
+    value   => $mcollective::rabbit_ssl_cert,
+  }
+
+  ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.ssl.key":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.key',
+    value   => $mcollective::rabbit_ssl_key,
+  }
+
+  ini_setting { "mcollective/server.cfg/plugin.rabbitmq.pool.1.ssl.fallback":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.fallback',
+    value   => 0,
   }
 
   ini_setting { "mcollective/server.cfg/plugin.rabbitmq.heartbeat_interval":
@@ -181,10 +223,41 @@ class mcollective::client::config {
     value   => $mcollective::rabbit_password,
   }
 
-  # todo ssl
+  $ssl_ensure = $mcollective::rabbit_ssl ? {
+    true => present,
+    default => absent,
+  }
+
   ini_setting { "mcollective/client.cfg/plugin.rabbitmq.pool.1.ssl":
     setting => 'plugin.rabbitmq.pool.1.ssl',
-    value   => '0',
+    value   => $mcollective::rabbit_ssl ? {
+      true => '1',
+      default => '0',
+    },
+  }
+
+  ini_setting { "mcollective/client.cfg/plugin.rabbitmq.pool.1.ssl.ca":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.ca',
+    value   => $mcollective::rabbit_ssl_cacert,
+  }
+
+  ini_setting { "mcollective/client.cfg/plugin.rabbitmq.pool.1.ssl.cert":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.cert',
+    value   => $mcollective::rabbit_ssl_cert,
+  }
+
+  ini_setting { "mcollective/client.cfg/plugin.rabbitmq.pool.1.ssl.key":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.key',
+    value   => $mcollective::rabbit_ssl_key,
+  }
+
+  ini_setting { "mcollective/client.cfg/plugin.rabbitmq.pool.1.ssl.fallback":
+    ensure => $ssl_ensure,
+    setting => 'plugin.rabbitmq.pool.1.ssl.fallback',
+    value   => 0,
   }
 }
 
