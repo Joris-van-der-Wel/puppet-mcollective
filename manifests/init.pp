@@ -188,6 +188,7 @@ class mcollective::agent::sync_facts {
     loglevel => debug, # reduce noise in Puppet reports
     # exclude rapidly changing facts
     content  => inline_template("<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime_seconds|timestamp|free)/ }.to_yaml %>"),
+    backup => false,
   }
 }
 
