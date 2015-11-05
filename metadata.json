@@ -1,6 +1,6 @@
 {
   "name": "jorisw-mcollective",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Joris van der Wel <joris@jorisvanderwel.com>",
   "summary": "Configures the mcollective agent & client. Also installs the puppet plugin",
   "license": "MIT",
